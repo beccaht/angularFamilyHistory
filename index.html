@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    body{
+        background-image:url("https://hd.unsplash.com/photo-1423474695515-c64cdacb6a07");
+        background-size:1600px 900px;
+        background-repeat:no-repeat;
+        text-align: center;
+        padding-top: 100px;
+        font-size:20px;
+        color:#5d3d3d;
+    }
+</style>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<body ng-app="myApp" ng-controller="historyCtrl">
+
+<h2>My Family History List</h2>
+
+<form ng-submit="listAdd()">
+    <input type="text" ng-model="addPerson" size="20px" placeholder="Person">
+    <input type="text" ng-model="addFather" size="20px" placeholder="Father">
+    <input type="text" ng-model="addMother" size="20px" placeholder="Mother">
+    <input type="submit" value="Add New">
+</form>
+
+<br>
+
+<div ng-repeat="x in historyList">
+    <input type="checkbox" ng-model="x.done"> <span ng-bind="x.historyText"></span>
+</div>
+
+<p><button ng-click="remove()">Remove marked</button></p>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('historyCtrl', function($scope) {
+    $scope.historyList = [{historyText:'Rebeca Hernandez, Eduardo Hernandez, Adriana Tellez', done:false}];
+
+    $scope.listAdd = function() {
+        $scope.historyList.push({historyText:$scope.addPerson + ", " + $scope.addFather + ", " +$scope.addMother, done:false});
+        $scope.addPerson = "";
+        $scope.addFather = "";
+        $scope.addMother = ""; 
+    };
+
+    $scope.remove = function() {
+        var oldList = $scope.historyList;
+        $scope.historyList = [];
+        angular.forEach(oldList, function(x) {
+            if (!x.done) $scope.historyList.push(x);
+        });
+    };
+});
+</script>
+
+</body>
+</html>
+
